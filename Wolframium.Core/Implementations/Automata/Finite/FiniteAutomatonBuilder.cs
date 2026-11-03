@@ -92,7 +92,6 @@ namespace Wolframium.Core.Implementations.Automata.Finite
 
         public FiniteAutomaton<TContext, TValue> Build() => new FrozenFiniteAutomaton(this);
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private StateInformation GetStateInformation(TState state, [CallerArgumentExpression(nameof(state))] string? paramName = null)
         {
             ArgumentNullException.ThrowIfNull(state, paramName);
