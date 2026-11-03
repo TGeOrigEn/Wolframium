@@ -11,6 +11,8 @@ namespace Wolframium.Core.Implementations.Automata.Finite
 
             public StateInformation? DefaultTransition { get; set; }
 
+            public Action<TContext>? CompleteHandler { get; set; }
+
             public TState State { get; }
 
             public StateInformation(TState state, IEqualityComparer<TValue>? valueComparer)

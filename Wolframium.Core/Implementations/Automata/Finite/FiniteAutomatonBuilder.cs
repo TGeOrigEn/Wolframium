@@ -31,6 +31,10 @@ namespace Wolframium.Core.Implementations.Automata.Finite
             };
         }
 
+        public void SetCompleteHandler(TState state, Action<TContext>? handler) => GetStateInformation(state).CompleteHandler = handler;
+
+        public bool HasCompleteHandler(TState state) => GetStateInformation(state).CompleteHandler is not null;
+
         public void AddState(TState state)
         {
             ArgumentNullException.ThrowIfNull(state);
@@ -82,43 +86,11 @@ namespace Wolframium.Core.Implementations.Automata.Finite
             sourceStateInformation.Transitions[transitionValue] = destinationStateInformation;
         }
 
-        public void AddDefaultTransition(TState sourceState, TState destinationState)
-        {
-            StateInformation sourceStateInformation = GetStateInformation(sourceState);
-            StateInformation destinationStateInformation = GetStateInformation(destinationState);
+        public void SetDefaultTransition(TState sourceState, TState destinationState) => GetStateInformation(sourceState).DefaultTransition = GetStateInformation(destinationState);
 
-            if (sourceStateInformation.DefaultTransition is not null)
-            {
-                string exceptionMessage = $"State '{sourceState}' already has default transition.";
-                throw new ArgumentException(exceptionMessage, nameof(sourceState));
-            }
+        public bool HasDefaultTransition(TState state) => GetStateInformation(state).DefaultTransition is not null;
 
-            sourceStateInformation.DefaultTransition = destinationStateInformation;
-        }
-
-        public bool TryAddDefaultTransition(TState sourceState, TState destinationState)
-        {
-            StateInformation sourceStateInformation = GetStateInformation(sourceState);
-            StateInformation destinationStateInformation = GetStateInformation(destinationState);
-
-            if (sourceStateInformation.DefaultTransition is null)
-            {
-                sourceStateInformation.DefaultTransition = destinationStateInformation;
-                return true;
-            }
-
-            return false;
-        }
-
-        public void AddOrUpdateDefaultTransition(TState sourceState, TState destinationState)
-        {
-            StateInformation sourceStateInformation = GetStateInformation(sourceState);
-            StateInformation destinationStateInformation = GetStateInformation(destinationState);
-
-            sourceStateInformation.DefaultTransition = destinationStateInformation;
-        }
-
-        public FiniteAutomaton<TState, TContext, TValue> Build() => new FrozenFiniteAutomaton(this);
+        public FiniteAutomaton<TContext, TValue> Build() => new FrozenFiniteAutomaton(this);
 
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         private StateInformation GetStateInformation(TState state, [CallerArgumentExpression(nameof(state))] string? paramName = null)

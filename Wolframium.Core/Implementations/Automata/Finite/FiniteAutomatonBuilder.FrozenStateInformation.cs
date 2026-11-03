@@ -12,6 +12,8 @@ namespace Wolframium.Core.Implementations.Automata.Finite
 
             public FrozenStateInformation? DefaultTransition { get; private set; }
 
+            public Action<TContext>? CompleteHandler { get; }
+
             public TState State { get; }
 
             private FrozenStateInformation(StateInformation stateInformation)
@@ -19,6 +21,7 @@ namespace Wolframium.Core.Implementations.Automata.Finite
                 ArgumentNullException.ThrowIfNull(stateInformation);
 
                 State = stateInformation.State;
+                CompleteHandler = stateInformation.CompleteHandler;
                 Transitions = FrozenDictionary<TValue, FrozenStateInformation>.Empty;
             }
 

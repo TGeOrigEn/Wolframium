@@ -4,7 +4,7 @@ namespace Wolframium.Core.Implementations.Automata.Finite
 {
     public sealed partial class FiniteAutomatonBuilder<TState, TContext, TValue>
     {
-        private sealed class FrozenFiniteAutomaton : FiniteAutomaton<TState, TContext, TValue>
+        private sealed class FrozenFiniteAutomaton : FiniteAutomaton<TContext, TValue>
         {
             private readonly FrozenStateInformation _initialState;
 
@@ -14,7 +14,7 @@ namespace Wolframium.Core.Implementations.Automata.Finite
                 _initialState = FrozenStateInformation.CreateInitialState(builder);
             }
 
-            public override TState Run(TContext context)
+            public override bool Run(TContext context)
             {
                 ArgumentNullException.ThrowIfNull(context);
 
@@ -35,7 +35,9 @@ namespace Wolframium.Core.Implementations.Automata.Finite
                     else break;
                 }
 
-                return currentState.State;
+                currentState.CompleteHandler?.Invoke(context);
+
+                return ReferenceEquals(currentState, _initialState);
             }
         }
     }
