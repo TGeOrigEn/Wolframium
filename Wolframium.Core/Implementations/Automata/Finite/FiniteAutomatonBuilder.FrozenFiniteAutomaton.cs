@@ -37,7 +37,7 @@ namespace Wolframium.Core.Implementations.Automata.Finite
 
                 currentState.CompleteHandler?.Invoke(context);
 
-                return ReferenceEquals(currentState, _initialState);
+                return !ReferenceEquals(currentState, _initialState);
             }
         }
     }
