@@ -3,18 +3,46 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Wolframium.Core.Implementations
 {
+    /// <summary>
+    /// Представляет позицию символа в тексте, задаваемую номером строки, номером столбца и абсолютным индексом.
+    /// </summary>
     public readonly struct CharacterPosition : IComparable<CharacterPosition>, IComparable, IEquatable<CharacterPosition>
     {
         private static readonly CharacterPosition _minValue = default;
 
+        /// <summary>
+        /// Представляет наименьшее возможное значение <see cref="CharacterPosition"/>.
+        /// </summary>
         public static ref readonly CharacterPosition MinValue => ref _minValue;
 
+        /// <summary>
+        /// Возвращает номер столбца.
+        /// </summary>
+        /// <remarks>
+        /// Минимально возможное значение — ноль.
+        /// </remarks>
         public int Column { get; }
 
+        /// <summary>
+        /// Возвращает абсолютный индекс символа в тексте.
+        /// </summary>
         public int Index { get; }
 
+        /// <summary>
+        /// Возвращает номер строки.
+        /// </summary>
+        /// <remarks>
+        /// Минимально возможное значение — ноль.
+        /// </remarks>
         public int Row { get; }
 
+        /// <summary>
+        /// Инициализирует новый экземпляр структуры <see cref="CharacterPosition"/>.
+        /// </summary>
+        /// <param name="row">Номер строки, отсчитываемый от нуля.</param>
+        /// <param name="column">Номер столбца, отсчитываемый от нуля.</param>
+        /// <param name="index">Абсолютный индекс символа в тексте.</param>
+        /// <exception cref="ArgumentOutOfRangeException"/>
         public CharacterPosition(int row, int column, int index)
         {
             ArgumentOutOfRangeException.ThrowIfNegative(column);
