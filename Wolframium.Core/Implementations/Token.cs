@@ -1,26 +1,35 @@
 ﻿using System;
-using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Wolframium.Core.Implementations
 {
+    /// <summary>
+    /// Представляет единицу языка, содержащую информацию о соответствующем ей фрагменте текста и её виде.
+    /// </summary>
+    /// <typeparam name="TKind">Тип перечисления, задающего вид токена.</typeparam>
     public class Token<TKind> : IEquatable<Token<TKind>> where TKind : struct, Enum
     {
-        private static readonly FrozenSet<TKind> _availableKinds = Enum.GetValues<TKind>().ToFrozenSet();
+        /// <summary>
+        /// Возвращает фрагмент текста, соответствующий токену.
+        /// </summary>
+        public Fragment Fragment { get; }
 
+        /// <summary>
+        /// Возвращает вид токена.
+        /// </summary>
+        public TKind Kind { get; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр класса <see cref="Token{TKind}"/>.
+        /// </summary>
+        /// <param name="fragment">Фрагмент текста, соответствующий токену.</param>
+        /// <param name="kind">Вид токена.</param>
         public Token(Fragment fragment, TKind kind)
         {
-            if (!_availableKinds.Contains(kind))
-                throw new Exception();
-
             Fragment = fragment;
             Kind = kind;
         }
-
-        public Fragment Fragment { get; }
-
-        public TKind Kind { get; }
 
         public bool Equals([NotNullWhen(true)] Token<TKind>? other)
         {
