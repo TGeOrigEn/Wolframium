@@ -36,11 +36,4 @@ namespace Wolframium.Core.Implementations
 
         public override string ToString() => $"{nameof(Kind)}: {Kind}, {Fragment}";
     }
-
-    public class Token<TKind, TValue>(Fragment fragment, TKind kind, TValue value) : Token<TKind>(fragment, kind) where TKind : struct, Enum
-    {
-        public TValue Value { get; } = value;
-
-        public override string ToString() => $"{nameof(Kind)}: {Kind}, {nameof(Value)}: '{Value}', {Fragment}";
-    }
 }
