@@ -3,18 +3,39 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Wolframium.Core.Implementations
 {
+    /// <summary>
+    /// Представляет позицию фрагмента текста, задаваемую начальной и конечной позициями.
+    /// </summary>
     public readonly struct FragmentPosition : IComparable<FragmentPosition>, IComparable, IEquatable<FragmentPosition>
     {
         private static readonly FragmentPosition _minValue = default;
 
+        /// <summary>
+        /// Представляет наименьшее возможное значение <see cref="FragmentPosition"/>.
+        /// </summary>
         public static ref readonly FragmentPosition MinValue => ref _minValue;
 
+        /// <summary>
+        /// Возвращает позицию первого символа фрагмента.
+        /// </summary>
         public CharacterPosition Start { get; }
 
+        /// <summary>
+        /// Возвращает позицию последнего символа фрагмента.
+        /// </summary>
         public CharacterPosition End { get; }
 
+        /// <summary>
+        /// Возвращает длину фрагмента.
+        /// </summary>
         public int Length => End.Index - Start.Index + 1;
 
+        /// <summary>
+        /// Инициализирует новый экземпляр структуры <see cref="FragmentPosition"/>.
+        /// </summary>
+        /// <param name="start">Позиция первого символа фрагмента.</param>
+        /// <param name="end">Позиция последнего символа фрагмента.</param>
+        /// <exception cref="ArgumentOutOfRangeException"/>
         public FragmentPosition(CharacterPosition start, CharacterPosition end)
         {
             ArgumentOutOfRangeException.ThrowIfLessThan(end, start);
