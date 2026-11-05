@@ -1,14 +1,26 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Wolframium.Core.Implementations
 {
-    public class Token<TKind>(Fragment fragment, TKind kind) : IEquatable<Token<TKind>> where TKind : struct, Enum
+    public class Token<TKind> : IEquatable<Token<TKind>> where TKind : struct, Enum
     {
-        public Fragment Fragment { get; } = fragment;
+        private static readonly FrozenSet<TKind> _availableKinds = Enum.GetValues<TKind>().ToFrozenSet();
 
-        public TKind Kind { get; } = kind;
+        public Token(Fragment fragment, TKind kind)
+        {
+            if (!_availableKinds.Contains(kind))
+                throw new Exception();
+
+            Fragment = fragment;
+            Kind = kind;
+        }
+
+        public Fragment Fragment { get; }
+
+        public TKind Kind { get; }
 
         public bool Equals([NotNullWhen(true)] Token<TKind>? other)
         {
