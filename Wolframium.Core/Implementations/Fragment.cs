@@ -3,11 +3,31 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Wolframium.Core.Implementations
 {
-    public readonly struct Fragment(string? source, FragmentPosition position) : IEquatable<Fragment>
+    /// <summary>
+    /// Представляет фрагмент текста с указанием на его источник и позицию в нём.
+    /// </summary>
+    public readonly struct Fragment : IEquatable<Fragment>
     {
-        public string? Source { get; } = source;
+        /// <summary>
+        /// Возвращает источник фрагмента или <see langword="null"/>.
+        /// </summary>
+        public string? Source { get; }
 
-        public FragmentPosition Position { get; } = position;
+        /// <summary>
+        /// Возвращает позицию фрагмента в источнике.
+        /// </summary>
+        public FragmentPosition Position { get; }
+
+        /// <summary>
+        /// Инициализирует новый экземпляр структуры <see cref="Fragment"/>.
+        /// </summary>
+        /// <param name="source">Источник фрагмента или <see langword="null"/>.</param>
+        /// <param name="position">Позиция фрагмента в источнике.</param>
+        public Fragment(string? source, FragmentPosition position)
+        {
+            Source = source;
+            Position = position;
+        }
 
         public static bool operator ==(Fragment left, Fragment right) => left.Equals(right);
 
